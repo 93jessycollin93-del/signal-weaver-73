@@ -9,7 +9,7 @@ One system at a time, in this order. Each gets a `notes/systems/NN-name.md` (wha
 | 03 | Power: generators, fuel, solar + batteries, power radius, wiring | [03-power.md](03-power.md) | `sim/power.py` | prototype |
 | 04 | Building: materials, utility cabinet repair area, decay | [04-building.md](04-building.md) | `sim/building.py` | prototype |
 | 05 | Loot & persistence: scarcity, container respawn, items stay put | [05-loot.md](05-loot.md) | `sim/loot.py` | prototype |
-| 06 | Zombies / threats & AI | | | todo |
+| 06 | Zombies: sight, hearing, smell, infection per hit | [06-zombies.md](06-zombies.md) | `sim/zombies.py` | prototype |
 | 07 | Weather, seasons, day/night | | | todo |
 | 08 | Vehicles | | | todo |
 | 09 | Save format (`.vns`) | | | needs a save file |
