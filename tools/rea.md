@@ -51,6 +51,7 @@ From its `DISCLAIMER.md`: no bypassing DRM, licence checks or **anti-cheat**; no
 
 ## Ready-made prompt
 See [rea-prompt.md](rea-prompt.md) — paste it into Claude Code on your PC.
+Hands-on, tested workflow and timings: [rea-playbook.md](rea-playbook.md).
 
 ## Sources
 - https://github.com/morluto/rea (README, DISCLAIMER.md, docs/desktop-applications.md, docs/raw-binary.md, docs/mcp-prompts.md, .agents/skills/reverse-engineer-anything/SKILL.md)
