@@ -6,7 +6,7 @@ One system at a time, in this order. Each gets a `notes/systems/NN-name.md` (wha
 |---|---|---|---|---|
 | 01 | Survival stats: hunger, thirst, fatigue, stamina, temperature, infection | [01-survival-stats.md](01-survival-stats.md) | `sim/survival.py` | prototype |
 | 02 | Water: wells, barrels, fuse box distribution, boiling/filtering | [02-water.md](02-water.md) | `sim/water.py`, `sim/calendar.py` | prototype |
-| 03 | Power: generators, fuel, solar + batteries, power radius, wiring | | | todo |
+| 03 | Power: generators, fuel, solar + batteries, power radius, wiring | [03-power.md](03-power.md) | `sim/power.py` | prototype |
 | 04 | Building: placement, structures, base persistence | | | todo |
 | 05 | Loot & persistence: the world remembers every item | | | todo |
 | 06 | Zombies / threats & AI | | | todo |
