@@ -29,7 +29,7 @@ The "reconstruction ledger" turns findings into a checklist of behaviours your o
 ## What it can do for Vein (Unreal Engine 5)
 | Goal | REA? | How |
 |---|---|---|
-| Confirm engine, find paks, spot UE4SS/anti-cheat | ✅ | `inspect_desktop_application` on the Vein install folder. Detects Unreal from `Content/Paks` or the IoStore TOC signature |
+| Confirm engine, find paks, flag anti-cheat folders | ✅ | `inspect_desktop_application` on the Vein install folder. Detects Unreal from `Content/Paks` or the IoStore TOC signature |
 | Open `.pak`/`.utoc` assets | ❌ | Not supported. Use FModel |
 | Class/struct names, live values | ❌ | Use UE4SS (SDK dump, live property viewer) |
 | Look at `Vein-Win64-Shipping.exe` code | ✅ | `open_binary` with Ghidra — strings, functions, pseudocode. Huge binary: slow, and needs a focused question |
