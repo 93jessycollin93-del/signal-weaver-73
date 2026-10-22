@@ -49,6 +49,9 @@ From its `DISCLAIMER.md`: no bypassing DRM, licence checks or **anti-cheat**; no
    `Use REA to read the first 256 bytes of C:\path\to\copy\Server.vns and tell me if it's GVAS, compressed, SQLite or custom.`
 6. Commit what it reports to `research/` (text only — no game files).
 
+## Ready-made prompt
+See [rea-prompt.md](rea-prompt.md) — paste it into Claude Code on your PC.
+
 ## Sources
 - https://github.com/morluto/rea (README, DISCLAIMER.md, docs/desktop-applications.md, docs/raw-binary.md, docs/mcp-prompts.md, .agents/skills/reverse-engineer-anything/SKILL.md)
 - https://rea.tools/
