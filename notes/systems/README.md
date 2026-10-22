@@ -11,7 +11,7 @@ One system at a time, in this order. Each gets a `notes/systems/NN-name.md` (wha
 | 05 | Loot & persistence: scarcity, container respawn, items stay put | [05-loot.md](05-loot.md) | `sim/loot.py` | prototype |
 | 06 | Zombies: sight, hearing, smell, infection per hit | [06-zombies.md](06-zombies.md) | `sim/zombies.py` | prototype |
 | 07 | Weather, seasons, day/night, temperature | [07-weather.md](07-weather.md) | `sim/weather.py` | prototype (mostly our design) |
-| 08 | Vehicles | | | todo |
+| 08 | Vehicles: start faults, hotwire, siphon, parts & mechanic level | [08-vehicles.md](08-vehicles.md) | `sim/vehicles.py` | prototype |
 | 09 | Save format (`.vns`) | | | needs a save file |
 
 ## Clean-room rule
