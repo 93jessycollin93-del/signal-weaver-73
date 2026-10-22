@@ -1,11 +1,46 @@
+from sim.digestion import FOODS, Body
 from sim.survival import Activity, Survivor, WaterQuality
 
 
-def test_idle_drain_over_a_day():
+def live_day(s, meals=(), drink_ml=0):
+    """16 h awake, 8 h asleep; eat at 8, 13, 19; use the toilet when needed."""
+    for hour in range(24):
+        asleep = hour < 8
+        if drink_ml and not asleep:
+            s.drink(drink_ml)
+        if hour in (8, 13, 19):
+            for name in meals:
+                s.eat(FOODS[name])
+        s.tick(1, Activity.SLEEP if asleep else Activity.IDLE)
+        if s.body.needs_toilet["pee"]:
+            s.body.urinate()
+        if s.body.needs_toilet["poo"]:
+            s.body.defecate()
+
+
+def test_fed_and_watered_survivor_stays_healthy_for_weeks():
     s = Survivor()
-    s.tick(10)
-    assert s.hunger < 80 and s.thirst < 80 and s.energy < 100
-    assert s.alive
+    for _ in range(30):
+        live_day(s, meals=("canned beans", "cooked rice", "canned tuna"), drink_ml=150)
+    assert s.alive and s.health == 100
+
+
+def test_no_water_kills_in_about_three_to_four_days():
+    s = Survivor()
+    days = 0
+    while s.alive:
+        live_day(s, meals=("beef jerky",))
+        days += 1
+    assert 3 <= days <= 5
+
+
+def test_water_only_lasts_weeks_not_days():
+    s = Survivor()
+    days = 0
+    while s.alive and days < 100:
+        live_day(s, drink_ml=150)
+        days += 1
+    assert 25 <= days <= 70
 
 
 def test_sprinting_drains_faster_than_idle():
@@ -16,58 +51,58 @@ def test_sprinting_drains_faster_than_idle():
     assert sprint.thirst < idle.thirst
 
 
-def test_starvation_damages_then_kills():
-    s = Survivor(hunger=0, thirst=0)
-    s.tick(1)
-    assert s.health < 100
-    s.tick(100)
-    assert not s.alive
-
-
-def test_overfill_limit_is_fatal():
-    s = Survivor(hunger=80)
-    s.eat(45)  # 125, below the 130 limit
+def test_overeating_makes_you_vomit_not_die():
+    s = Survivor()
+    cans = 0
+    while s.body.vomit_count == 0:
+        s.eat(FOODS["canned beans"])
+        cans += 1
+    assert 6 <= cans <= 9  # ~3 L of food before it comes back up
     assert s.alive
-    s.eat(10)  # 135, over the limit
-    assert not s.alive
 
 
-def test_overdrinking_hurts_while_above_100():
-    s = Survivor(thirst=80)
-    s.drink(30)  # 110
-    s.tick(0.5)
-    assert s.health < 100
-
-
-def test_dirty_water_infects_clean_does_not():
+def test_dirty_water_and_spoiled_food_infect():
     clean, dirty = Survivor(), Survivor()
-    clean.drink(10, WaterQuality.CLEAN)
-    dirty.drink(10, WaterQuality.DIRTY)
-    assert clean.infection == 0
-    assert dirty.infection > 0
+    clean.drink(250, WaterQuality.CLEAN)
+    dirty.drink(250, WaterQuality.DIRTY)
+    assert clean.infection == 0 and dirty.infection > 0
+    spoiled = Survivor()
+    spoiled.eat(FOODS["canned tuna"].__class__(**{**FOODS["canned tuna"].__dict__, "contaminated": True}))
+    assert spoiled.infection > 0
 
 
-def test_infection_increases_appetite():
+def test_infection_makes_you_hungrier():
     healthy, sick = Survivor(), Survivor(infection=100)
-    healthy.tick(2)
-    sick.tick(2)
+    healthy.tick(6)
+    sick.tick(6)
+    assert sick.body.kcal_burned > healthy.body.kcal_burned
     assert sick.hunger < healthy.hunger
 
 
-def test_cold_drains_energy_heat_drains_water():
-    mild, cold, hot = Survivor(), Survivor(), Survivor()
+def test_cold_drains_energy():
+    mild, cold = Survivor(), Survivor()
     mild.tick(2, temperature=20)
     cold.tick(2, temperature=-10)
-    hot.tick(2, temperature=40)
     assert cold.energy < mild.energy
-    assert hot.thirst < mild.thirst
-    assert hot.heat_exhausted and not mild.heat_exhausted
+
+
+def test_heat_exhaustion_flag():
+    s = Survivor()
+    s.tick(1, temperature=40)
+    assert s.heat_exhausted
 
 
 def test_sleep_restores_energy():
     s = Survivor(energy=30)
     s.tick(4, Activity.SLEEP)
     assert s.energy > 30
+
+
+def test_empty_glycogen_slows_stamina_recovery():
+    fed, empty = Survivor(stamina=0), Survivor(stamina=0, body=Body(glycogen=0))
+    fed.tick(0.1)
+    empty.tick(0.1)
+    assert empty.stamina < fed.stamina
 
 
 def test_exhaustion_makes_sprinting_costlier():
@@ -78,7 +113,8 @@ def test_exhaustion_makes_sprinting_costlier():
 
 
 def test_hud_only_shows_extremes():
-    s = Survivor(hunger=60, thirst=10, energy=100)
-    assert s.hud_visible() == {"thirst": 10}
-    s.eat(50)  # 110
-    assert "hunger" in s.hud_visible()
+    s = Survivor(body=Body(body_water=42_000 * 0.92))
+    assert set(s.hud_visible()) == {"thirst"}
+    s.drink(1500)
+    s.eat(FOODS["canned beans"])
+    assert "hunger" in s.hud_visible()  # stuffed

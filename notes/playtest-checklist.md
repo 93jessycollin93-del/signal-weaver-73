@@ -3,8 +3,8 @@
 Every open question from notes/systems/, in one place. Tick them off while playing (or with the UE4SS live property viewer), then I'll update the models with real numbers.
 
 ## 01 — Survival stats
-- [ ] Exact drain rates per in-game hour, and do they change with activity?
-- [ ] Is there a separate fatigue/sleep stat, and what does it affect?
+- [ ] [VERIFY] Exact hunger/thirst drop rates per in-game hour while idle, and do they change with activity?
+- [ ] [VERIFY] Is there a separate sleep/tiredness bar, and what does it affect?
 - [ ] How does "too full" work — a separate threshold above 100%, or vomiting?
 - [ ] What raises infection, and can it be cured?
 - [ ] Does body temperature exist as a number, or only as cold/hot states?

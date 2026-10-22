@@ -4,7 +4,8 @@ One system at a time, in this order. Each gets a `notes/systems/NN-name.md` (wha
 
 | # | System | Notes | Module | Status |
 |---|---|---|---|---|
-| 01 | Survival stats: hunger, thirst, fatigue, stamina, temperature, infection | [01-survival-stats.md](01-survival-stats.md) | `sim/survival.py` | prototype |
+| 01 | Survival stats: hunger, thirst, fatigue, stamina, temperature, infection | [01-survival-stats.md](01-survival-stats.md) | `sim/survival.py` | prototype — 2 items [VERIFY] |
+| 01b | Digestion, metabolism, hydration (realistic) | [01b-digestion.md](01b-digestion.md) | `sim/digestion.py` | prototype, checked vs physiology |
 | 02 | Water: wells, barrels, fuse box distribution, boiling/filtering | [02-water.md](02-water.md) | `sim/water.py`, `sim/calendar.py` | prototype |
 | 03 | Power: generators, fuel, solar + batteries, power radius, wiring | [03-power.md](03-power.md) | `sim/power.py` | prototype |
 | 04 | Building: materials, utility cabinet repair area, decay | [04-building.md](04-building.md) | `sim/building.py` | prototype |
