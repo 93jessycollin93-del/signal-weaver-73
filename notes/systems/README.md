@@ -8,7 +8,7 @@ One system at a time, in this order. Each gets a `notes/systems/NN-name.md` (wha
 | 02 | Water: wells, barrels, fuse box distribution, boiling/filtering | [02-water.md](02-water.md) | `sim/water.py`, `sim/calendar.py` | prototype |
 | 03 | Power: generators, fuel, solar + batteries, power radius, wiring | [03-power.md](03-power.md) | `sim/power.py` | prototype |
 | 04 | Building: materials, utility cabinet repair area, decay | [04-building.md](04-building.md) | `sim/building.py` | prototype |
-| 05 | Loot & persistence: the world remembers every item | | | todo |
+| 05 | Loot & persistence: scarcity, container respawn, items stay put | [05-loot.md](05-loot.md) | `sim/loot.py` | prototype |
 | 06 | Zombies / threats & AI | | | todo |
 | 07 | Weather, seasons, day/night | | | todo |
 | 08 | Vehicles | | | todo |
