@@ -8,3 +8,4 @@ Don't commit tool binaries here — link to them and record the version and sett
 | UEViewer | | Mesh/texture viewing | https://www.gildor.org/en/projects/umodel |
 | UE4SS | | SDK dump, Lua mods, mappings | https://github.com/UE4SS-RE/RE-UE4SS |
 | Ghidra | | Static analysis | https://ghidra-sre.org |
+| REA | | AI-agent reverse engineering via MCP — see [rea.md](rea.md) | https://github.com/morluto/rea |
