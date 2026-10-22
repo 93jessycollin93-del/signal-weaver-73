@@ -12,9 +12,18 @@ Research notes, scripts and tooling for understanding **Vein** (Ramjet Studios),
 | `research/structs/` | Reconstructed classes and structs (SDK dumps, hand-written headers) |
 | `research/offsets/` | Offsets and signatures, tagged with the game build they apply to |
 | `scripts/` | Your own helper scripts (Ghidra/IDA scripts, Lua mods, parsers) |
+| `notes/systems/` | One write-up per game system, studied in order — start at its README |
+| `sim/` | Our own clean-room versions of each system (Python, tested in `tests/`) |
 | `tools/` | Pointers to external tools and how they're configured — not the tools themselves |
 
 ## Getting started
 
 1. Read `notes/00-setup.md` for the toolchain.
 2. Record the game build you're looking at in `notes/builds.md` before writing down any offsets — they change every patch.
+
+## Running the simulations
+
+```
+pip install pytest
+python -m pytest tests
+```
