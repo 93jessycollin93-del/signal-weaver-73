@@ -33,7 +33,7 @@ CC0 / free-licence packs: Kenney, Quaternius (characters, zombies, buildings), P
 **4. Build in thin vertical slices — each one playable.**
 | Slice | What you can do | Systems used |
 |---|---|---|
-| S1 — "One house" | Walk around a house in third person, eat from cans, drink from the tap until it shuts off, sleep, day/night | 01, 01b, 02 (mains only), 07 |
+| S1 — "One house" ✅ built (`game/`) | Walk around a house in third person, eat from cans, drink from the tap until it shuts off, sleep, day/night | 01, 01b, 02 (mains only), 07 |
 | S2 — "Something's outside" | One zombie that hears/sees/smells you; get hit → infection | 06 |
 | S3 — "Stay alive" | Loot containers, items stay where dropped, save & quit & load | 05, 09 (our own save format) |
 | S4 — "Off grid" | Well, barrels, generator, solar, fuse box | 02, 03 |
@@ -45,6 +45,8 @@ Each slice ports only the `sim/` modules it needs to GDScript, with the same tes
 **5. Keep learning from Vein in parallel — without touching our code.**
 Manus dedicated-server packet (setting names, save file) and playtests feed **numbers** into `notes/` → `sim/*Config`. Nothing else crosses over.
 
+## Decisions
+- Engine: **Godot 4** (Jessy, Oct 22).
+
 ## What I need from Jessy
-- Engine decision (recommend Godot 4).
 - A working name for *our* game (not "Vein").

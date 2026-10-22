@@ -14,6 +14,7 @@ Research notes, scripts and tooling for understanding **Vein** (Ramjet Studios),
 | `scripts/` | Your own helper scripts (Ghidra/IDA scripts, Lua mods, parsers) |
 | `notes/systems/` | One write-up per game system, studied in order — start at its README |
 | `sim/` | Our own clean-room versions of each system (Python, tested in `tests/`) |
+| `game/` | The Godot 4 prototype of our own game — see [game/README.md](game/README.md) |
 | `tools/` | Pointers to external tools and how they're configured — not the tools themselves |
 
 ## Getting started
