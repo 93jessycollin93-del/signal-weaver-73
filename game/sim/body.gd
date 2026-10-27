@@ -14,6 +14,8 @@ const KCAL := {"carbs": 4.0, "protein": 4.0, "fat": 9.0}
 
 class Config:
 	var max_step_hours := 0.25
+	var hunger_rate := 1.0  # Vein: GS_HungerMultiplier
+	var thirst_rate := 1.0  # Vein: GS_ThirstMultiplier
 	var normal_body_water := 42000.0
 	var max_glycogen := 500.0
 	var baseline_muscle_protein := 10000.0
@@ -221,6 +223,7 @@ func _spend_energy(h: float, met: float, temperature: float, infection: float) -
 	var need := c.bmr_kcal_per_day / 24.0 * met * fever * h
 	if temperature < c.shiver_below:
 		need += (c.shiver_below - temperature) * c.shiver_kcal_per_degree_hour * h
+	need *= c.hunger_rate
 	kcal_burned += need
 	body_water += need * c.metabolic_water_ml_per_kcal
 
@@ -242,7 +245,7 @@ func _water_balance(h: float, met: float, temperature: float) -> void:
 	var loss := c.insensible_ml_per_day / 24.0 * h
 	loss += max(0.0, met - 2.0) * c.sweat_ml_per_met_hour * h
 	loss += max(0.0, temperature - 25.0) * c.sweat_ml_per_degree_hour * h
-	body_water -= loss
+	body_water -= loss * c.thirst_rate
 	var urine := c.obligatory_urine_ml_per_day / 24.0 * h
 	var surplus := body_water - c.normal_body_water
 	if surplus > 0.0:

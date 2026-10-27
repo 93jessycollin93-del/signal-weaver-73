@@ -22,6 +22,15 @@
 - `Container` — generated on first open; only a **fully emptied** container refills, and only after the interval; putting items in cancels the respawn timer.
 - `World` — items on the ground keep their exact position; `snapshot()`/`restore()` round-trips through JSON (a stand-in until we know the `.vns` format).
 
+## Vein's real settings for this system
+From published server configs — see [research/vein-server-settings.md](../../research/vein-server-settings.md) for sources and conflicts.
+
+| Setting | Default | Wired into |
+|---|---|---|
+| `vein.Scarcity.Difficulty` | 2 (0–4; 4 = "impossible") | `LootSettings.scarcity` |
+| `vein.ContainersRespawn.Enabled` | 1 | `LootSettings.respawn_enabled` |
+| `vein.ContainersRespawn.Interval` | 10800 s (600–43200) | `LootSettings.respawn_interval_s` |
+
 ## Sources
 - https://wabbanode.com/help/vein/how-to-change-zombie-settings-on-your-vein-server
 - https://www.hostbyte.net/billing/knowledgebase/103/Full-VEIN-Server-Configuration-Guide-Game.ini.html

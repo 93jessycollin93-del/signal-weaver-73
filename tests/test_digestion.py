@@ -151,3 +151,14 @@ def test_severe_dehydration_and_starvation_are_lethal():
     assert Body(muscle_protein=5000).damage_per_hour() == float("inf")
     assert Body(body_water=42_000 * 0.9).damage_per_hour() > 0
     assert Body().damage_per_hour() == 0
+
+
+def test_vein_hunger_and_thirst_multipliers():
+    from sim.digestion import DigestionConfig
+    normal, hard = Body(), Body(config=DigestionConfig(hunger_rate=2.0, thirst_rate=2.0))
+    easy = Body(config=DigestionConfig(hunger_rate=0.5, thirst_rate=0.5))
+    for b in (normal, hard, easy):
+        b.tick(10)
+    assert hard.kcal_burned == pytest.approx(normal.kcal_burned * 2)
+    assert easy.kcal_burned == pytest.approx(normal.kcal_burned * 0.5)
+    assert hard.body_water < normal.body_water < easy.body_water

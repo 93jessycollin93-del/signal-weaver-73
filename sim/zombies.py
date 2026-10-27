@@ -119,3 +119,54 @@ class Zombie:
         self.health -= amount
         if self.health <= 0:
             self.health, self.state = 0.0, State.DEAD
+
+
+@dataclass
+class HordeSettings:
+    """Mirrors Vein's vein.AISpawner.* cvars (published server defaults)."""
+    enabled: bool = True              # vein.AISpawner.Enabled = 1
+    horde_mode: bool = False          # vein.AISpawner.HordeMode = 0 (off by default)
+    chance_per_minute: float = 0.05   # vein.AISpawner.Hordes.ChancePerMinute
+    duration_s: float = 120.0         # vein.AISpawner.Hordes.Duration (unit assumed seconds)
+    max_distance_m: float = 250.0     # vein.AISpawner.Hordes.MaxDistance = 25000 Unreal cm
+    scent_effect: float = 0.5         # vein.AISpawner.Hordes.ScentEffect
+    noise_effect: float = 0.1         # "bigger means more likely hordes from noise"
+
+
+@dataclass
+class Horde:
+    origin: tuple
+    target: tuple
+    started_at: float
+    ends_at: float
+
+
+@dataclass
+class HordeDirector:
+    """Rolls for horde events. How scent and noise combine is our design;
+    the knobs and their defaults are Vein's."""
+    settings: HordeSettings = field(default_factory=HordeSettings)
+    active: Horde = None
+
+    def chance(self, scent: float = 0.0, noise: float = 0.0) -> float:
+        """Per-minute chance, raised by scent (0-1, e.g. blood, unwashed) and noise (0-1)."""
+        s = self.settings
+        if not (s.enabled and s.horde_mode):
+            return 0.0
+        boost = 1.0 + s.scent_effect * scent + s.noise_effect * noise * 10.0
+        return min(1.0, s.chance_per_minute * boost)
+
+    def update(self, now_s: float, minutes: float, target: tuple, rng: random.Random,
+               scent: float = 0.0, noise: float = 0.0) -> Horde:
+        """Advance `minutes` of real time. Returns the active horde, if any."""
+        if self.active and now_s >= self.active.ends_at:
+            self.active = None
+        if self.active:
+            return self.active
+        p = self.chance(scent, noise)
+        if p > 0.0 and rng.random() < 1.0 - (1.0 - p) ** minutes:
+            angle = rng.uniform(0.0, 2.0 * math.pi)
+            dist = rng.uniform(0.5, 1.0) * self.settings.max_distance_m
+            origin = (target[0] + dist * math.cos(angle), target[1] + dist * math.sin(angle))
+            self.active = Horde(origin, target, now_s, now_s + self.settings.duration_s)
+        return self.active

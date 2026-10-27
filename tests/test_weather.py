@@ -57,3 +57,34 @@ def test_weather_drives_survival():
     cold.tick(4, temperature=at(95, 3, Weather.STORM).temperature())
     mild.tick(4, temperature=at(35, 15).temperature())
     assert cold.energy < mild.energy
+
+
+def test_vein_default_day_lasts_about_65_real_minutes():
+    from sim.calendar import VeinClock
+    clock = VeinClock()
+    # day 06-20 at 16x = 52.5 min, night 20-06 at 48x = 12.5 min
+    assert abs(clock.real_minutes_per_day() - 65.0) < 1e-9
+    assert VeinClock(time_multiplier=1, night_multiplier=1).real_minutes_per_day() == 24 * 60
+
+
+def test_vein_clock_runs_faster_at_night():
+    from sim.calendar import VeinClock
+    clock = VeinClock()
+    assert clock.speed(12) == 16 and clock.speed(23) == 48 and clock.speed(3) == 48
+    assert clock.speed(6) == 16 and clock.speed(20) == 48
+
+
+def test_vein_clock_full_day_in_real_time():
+    from sim.calendar import Calendar, VeinClock
+    cal, clock = Calendar(hours=8.0), VeinClock()
+    clock.advance_real(cal, 65.0 * 60)
+    assert abs(cal.hours - 32.0) < 1e-6  # exactly one game day later
+
+
+def test_vein_clock_many_small_steps_match_one_big_step():
+    from sim.calendar import Calendar, VeinClock
+    one, many, clock = Calendar(hours=19.5), Calendar(hours=19.5), VeinClock()
+    clock.advance_real(one, 3000.0)
+    for _ in range(3000):
+        clock.advance_real(many, 1.0)
+    assert abs(one.hours - many.hours) < 1e-6

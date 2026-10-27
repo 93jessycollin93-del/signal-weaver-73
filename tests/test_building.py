@@ -55,3 +55,20 @@ def test_full_health_pieces_in_range_cost_nothing():
     base.build(WALL, (1, 1), Counter(hammer=1, plank=10, nail=20))
     base.tick(24)
     assert cab.stock == Counter(plank=5, nail=5)
+
+
+def test_decay_can_be_switched_off_like_vein_build_object_decay():
+    from sim.building import BuildConfig
+    base = Base(config=BuildConfig(decay_enabled=False))
+    piece = base.build(WALL, (100, 0), Counter(hammer=1, plank=10, nail=20))
+    base.tick(1000)
+    assert piece.health == 100
+
+
+def test_base_damage_multiplier_scales_attacks_and_zero_disables():
+    from sim.building import BuildConfig
+    normal, half, off = (Base(config=BuildConfig(base_damage_multiplier=m)) for m in (1.0, 0.5, 0.0))
+    pieces = [b.build(WALL, (0, 0), Counter(hammer=1, plank=10, nail=20)) for b in (normal, half, off)]
+    for b, p in zip((normal, half, off), pieces):
+        b.attack(p, 40)
+    assert [p.health for p in pieces] == [60, 80, 100]

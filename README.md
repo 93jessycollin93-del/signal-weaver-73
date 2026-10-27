@@ -16,6 +16,7 @@ Research notes, scripts and tooling for understanding **Vein** (Ramjet Studios),
 | `sim/` | Our own clean-room versions of each system (Python, tested in `tests/`) |
 | `game/` | The Godot 4 prototype of our own game — see [game/README.md](game/README.md) |
 | `notes/game-catalog.md` | All 77 games from the lists, tiered by what REA can do with each and the legal way to study them |
+| `research/vein-server-settings.md` | Vein's real server settings and defaults, from public configs |
 | `tools/` | Pointers to external tools and how they're configured — not the tools themselves |
 
 ## Getting started

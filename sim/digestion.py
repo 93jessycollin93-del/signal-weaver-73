@@ -65,6 +65,8 @@ FOODS = {
 @dataclass
 class DigestionConfig:
     max_step_hours: float = 0.25          # long ticks are split into steps this size
+    hunger_rate: float = 1.0              # Vein: GS_HungerMultiplier (scales energy burned)
+    thirst_rate: float = 1.0              # Vein: GS_ThirstMultiplier (scales water lost)
 
     # Body size: 75 kg adult.
     normal_body_water: float = 42_000.0   # ml (~60% of body mass)
@@ -284,6 +286,7 @@ class Body:
         need = c.bmr_kcal_per_day / 24 * met * fever * hours
         if temperature < c.shiver_below:
             need += (c.shiver_below - temperature) * c.shiver_kcal_per_degree_hour * hours
+        need *= c.hunger_rate
         self.kcal_burned += need
         self.body_water += need * c.metabolic_water_ml_per_kcal
 
@@ -305,7 +308,7 @@ class Body:
         loss = c.insensible_ml_per_day / 24 * hours
         loss += max(0.0, met - 2) * c.sweat_ml_per_met_hour * hours
         loss += max(0.0, temperature - 25) * c.sweat_ml_per_degree_hour * hours
-        self.body_water -= loss
+        self.body_water -= loss * c.thirst_rate
 
         urine = c.obligatory_urine_ml_per_day / 24 * hours
         surplus = self.body_water - c.normal_body_water

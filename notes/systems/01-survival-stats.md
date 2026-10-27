@@ -30,6 +30,17 @@
 - Overeating/overdrinking makes you **vomit** (intentional difference from Vein, which kills you).
 - `hud_visible()` returns only stats at extremes, like Vein 0.021.
 
+## Vein's real settings for this system
+From published server configs — see [research/vein-server-settings.md](../../research/vein-server-settings.md) for sources and conflicts.
+
+| Setting | Default | Wired into |
+|---|---|---|
+| `GS_HungerMultiplier` (Game.ini `[/Script/Vein.ServerSettings]`) | 1.0 | `DigestionConfig.hunger_rate` |
+| `GS_ThirstMultiplier` (same) | 1.0 | `DigestionConfig.thirst_rate` |
+| `vein.ZombieInfectionChance` | 0.01 ⚠️ (one source 0.25) | `ZombieSettings.infection_chance` |
+
+The actual drain per hour is **not** exposed as a setting — still [VERIFY] by playtest. No public mention of a sleep/fatigue bar was found.
+
 ## Sources
 - https://vein.wiki.gg/wiki/Version_0.008
 - https://vein.wiki.gg/wiki/Version_0.021

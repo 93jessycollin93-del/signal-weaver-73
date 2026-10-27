@@ -24,6 +24,13 @@
 - `FuseBox` — every connected source serves every connected `Fixture`; sources drawn in connection order.
 - `Container` — fill at a sink, `boil()` to make safe, pour into a barrel. Quality uses `WaterQuality` from the survival model, so drinking dirty water still adds infection.
 
+## Vein's real settings for this system
+From published server configs — see [research/vein-server-settings.md](../../research/vein-server-settings.md) for sources and conflicts.
+
+| Setting | Default | Wired into |
+|---|---|---|
+| `vein.Calendar.WaterShutoffTimeDays` | 30 ⚠️ (one guide 20) | `Calendar.water_shutoff_day` |
+
 ## Sources
 - https://wabbanode.com/help/vein/how-to-configure-utility-shutoff-times-on-your-vein-server
 - https://citadelservers.com/client/knowledgebase/1002/Citadel-Servers---VEIN-Dedicated-Server-Configuration-Guide..html

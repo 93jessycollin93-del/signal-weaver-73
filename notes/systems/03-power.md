@@ -26,6 +26,15 @@
 - `Battery` — 50,000 Wh default; stores spare solar, tops up from the city grid.
 - `PowerNetwork` — devices are on the network if wired, or inside a running generator's radius. Supply order: solar → city → batteries → generator fuel. When power is short, devices with higher `priority` are served first.
 
+## Vein's real settings for this system
+From published server configs — see [research/vein-server-settings.md](../../research/vein-server-settings.md) for sources and conflicts.
+
+| Setting | Default | Wired into |
+|---|---|---|
+| `vein.Calendar.ElectricalShutoffTimeDays` | 46 ⚠️ (one guide 30) | `Calendar.power_shutoff_day` |
+
+No public cvar name was found for the power hookup range.
+
 ## Sources
 - https://wabbanode.com/help/vein/how-to-configure-utility-shutoff-times-on-your-vein-server
 - https://citadelservers.com/client/knowledgebase/1002/Citadel-Servers---VEIN-Dedicated-Server-Configuration-Guide..html

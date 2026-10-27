@@ -79,3 +79,42 @@ def test_zombie_dies_at_zero_health():
     z.take_damage(40)
     assert z.state is State.DEAD
     assert z.update(1, Player((0, 0))) is State.DEAD
+
+
+def test_hordes_off_by_default_like_vein():
+    from sim.zombies import HordeDirector
+    d = HordeDirector()
+    assert d.chance() == 0.0
+    assert d.update(0, 10_000, (0, 0), random.Random(1)) is None
+
+
+def test_horde_mode_rolls_at_about_five_percent_a_minute():
+    from sim.zombies import HordeDirector, HordeSettings
+    rng, hits = random.Random(7), 0
+    for _ in range(20_000):
+        d = HordeDirector(HordeSettings(horde_mode=True))
+        hits += d.update(0, 1, (0, 0), rng) is not None
+    assert 0.04 < hits / 20_000 < 0.06
+
+
+def test_disabled_spawner_means_no_hordes_even_in_horde_mode():
+    from sim.zombies import HordeDirector, HordeSettings
+    d = HordeDirector(HordeSettings(enabled=False, horde_mode=True))
+    assert d.update(0, 10_000, (0, 0), random.Random(1)) is None
+
+
+def test_noise_and_scent_make_hordes_likelier():
+    from sim.zombies import HordeDirector, HordeSettings
+    d = HordeDirector(HordeSettings(horde_mode=True))
+    assert d.chance(noise=1.0) > d.chance(scent=1.0) > d.chance()
+
+
+def test_horde_starts_within_max_distance_and_ends_after_duration():
+    import math
+    from sim.zombies import HordeDirector, HordeSettings
+    d = HordeDirector(HordeSettings(horde_mode=True, chance_per_minute=1.0))
+    h = d.update(100.0, 1, (10.0, 20.0), random.Random(3))
+    assert h is not None and math.dist(h.origin, (10.0, 20.0)) <= 250.0
+    assert d.update(150.0, 1, (10.0, 20.0), random.Random(3)) is h  # still running
+    d.settings.chance_per_minute = 0.0
+    assert d.update(220.0, 1, (10.0, 20.0), random.Random(3)) is None  # 120 s later it's over

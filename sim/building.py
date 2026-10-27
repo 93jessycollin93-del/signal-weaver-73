@@ -48,6 +48,8 @@ class BuildConfig:
     decay_per_hour: float = 0.5           # health lost outside a cabinet's area
     repair_per_hour: float = 5.0          # health restored inside it
     repair_cost_fraction: float = 0.1     # share of a piece's materials per 100% repaired
+    decay_enabled: bool = True            # Vein: vein.BuildObjectDecay (default 1)
+    base_damage_multiplier: float = 1.0   # Vein: vein.BaseDamage (default 1.0, 0 disables)
 
 
 class MissingItems(Exception):
@@ -76,12 +78,20 @@ class Base:
         if piece.destroyed:
             self.pieces.remove(piece)
 
+    def attack(self, piece: Piece, amount: float) -> None:
+        """Damage from zombies or players, scaled like vein.BaseDamage."""
+        self.damage(piece, amount * self.config.base_damage_multiplier)
+
+    def _decay(self, piece: Piece, hours: float) -> None:
+        if self.config.decay_enabled:
+            self.damage(piece, self.config.decay_per_hour * hours)
+
     def tick(self, hours: float) -> None:
         c = self.config
         for piece in list(self.pieces):
             cabinet = next((cab for cab in self.cabinets if cab.covers(piece)), None)
             if cabinet is None:
-                self.damage(piece, c.decay_per_hour * hours)
+                self._decay(piece, hours)
                 continue
             missing_hp = piece.blueprint.max_health - piece.health
             if missing_hp <= 0:
@@ -90,7 +100,7 @@ class Base:
             if self._pay_for_repair(cabinet, piece, repair):
                 piece.health += repair
             else:
-                self.damage(piece, c.decay_per_hour * hours)
+                self._decay(piece, hours)
 
     def _pay_for_repair(self, cabinet: UtilityCabinet, piece: Piece, repair: float) -> bool:
         share = repair / piece.blueprint.max_health * self.config.repair_cost_fraction

@@ -22,6 +22,14 @@
 - `UtilityCabinet` — position, radius, its own `stock` of materials.
 - `Base.tick` — pieces in a cabinet's range repair from its stock (10% of the piece's materials per full repair, our number); pieces outside it, or when the stock is short, decay; destroyed pieces are removed.
 
+## Vein's real settings for this system
+From published server configs — see [research/vein-server-settings.md](../../research/vein-server-settings.md) for sources and conflicts.
+
+| Setting | Default | Wired into |
+|---|---|---|
+| `vein.BuildObjectDecay` | 1 (on) | `BuildConfig.decay_enabled` |
+| `vein.BaseDamage` | 1.0 (0 disables) | `BuildConfig.base_damage_multiplier` → `Base.attack()` |
+
 ## Sources
 - https://vein.wiki.gg/wiki/Building
 - https://veingame.net/vein-guides

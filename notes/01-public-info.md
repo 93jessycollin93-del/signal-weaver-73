@@ -3,7 +3,7 @@
 Gathered from community/host guides (Oct 2026, game ~0.025). These are second-hand — verify each against your own install and tick it off.
 
 ## Engine
-- [ ] Unreal Engine version: **not confirmed by any source yet.** Check the exe's file properties or the first lines of `UE4SS.log`.
+- [x] Unreal Engine **5.6** per the UE4SS game profile for Vein (`EngineVersionOverride 5.6`); CUE4Parse mapped an earlier build to 5.4. Still worth confirming in `UE4SS.log`.
 
 ## Modding scene
 - Nexus Mods has a VEIN section with a packaged **UE4SS** build (v3.0.1-599, *experimental* branch — the stable release reportedly doesn't work).
@@ -20,7 +20,7 @@ Gathered from community/host guides (Oct 2026, game ~0.025). These are second-ha
 - Ports: UDP 7777 (game), 27015 (query).
 - Since 0.016 Hotfix 5, gameplay settings live in `vein.*` console variables (admin menu or `[ConsoleVariables]` in `Engine.ini`), not in the save.
 - `Game.ini` holds admins (SteamID64) and Discord chat settings. Linux path: `Vein/Saved/Config/LinuxServer/`.
-- [ ] Dump the full list of `vein.*` cvars (UE4SS console or `DumpConsoleCommands`) into `research/cvars.md`.
+- [~] Partial list from public configs in [research/vein-server-settings.md](../research/vein-server-settings.md). Full official list: run `PrintAllVeinSettings` on a server.
 
 ## Sources
 - https://www.nexusmods.com/vein/mods/15

@@ -52,7 +52,7 @@ Every open question from notes/systems/, in one place. Tick them off while playi
 - [ ] Is there a temperature number anywhere (UI, UE4SS property), or only cold/hot states?
 - [ ] Which weather types exist (rain, fog, snow, storms)? Does rain fill barrels (02) or cut solar (03)?
 - [ ] Does being indoors or near a fire/heater change body temperature?
-- [ ] Day length in real minutes, and the related `vein.*` time-scale cvar.
+- [x] Day length: 65 real minutes at defaults (`vein.Time.*`, see below).
 
 ## 08 — Vehicles
 - [ ] Full list of part slots (tyres, radiator, alternator, doors, windows?).
